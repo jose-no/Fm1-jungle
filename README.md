@@ -4,7 +4,7 @@ A breakbeat slicer firmware for the M-VAVE FM-1. Load one break from a web page;
 rearranges it in time as it plays — shuffled beats, stutters, reverses, dropouts, fills — following a MIDI clock or
 its own tempo, with the keys for live cue-juggling and beat repeats.
 
-- **Site** (installer, break loader, manual): https://jose-no.github.io/fm1-jungle/
+- **Site** (installer, break loader, manual): https://jose-no.github.io/Fm1-jungle/
 - [Manual](app/docs/MANUAL.md) · [Upload protocol](docs/PROTOCOL.md)
 
 > **Untested on hardware so far.** It runs in fm1-base's host simulator and its tests pass, but no FM-1 has run it
@@ -27,7 +27,7 @@ its own tempo, with the keys for live cue-juggling and beat repeats.
 GitHub Actions (`.github/workflows/build.yml`) tests, builds `jungle-X.Y.fwsc` and the browser emulator, and publishes the
 site to the `gh-pages` branch on every push to `main`. Locally:
 
-    git clone --recursive https://github.com/jose-no/fm1-jungle && cd fm1-jungle
+    git clone --recursive https://github.com/jose-no/Fm1-jungle && cd fm1-jungle
     sh tests/run_tests.sh                 # engine, host simulator, loader page (Node + Playwright)
     sh base/tools/get_toolchain.sh && sh base/bsp/tools/get_sdk.sh
     ./build.sh --release 0.1              # app/build/jungle-0.1.fwsc (Linux x86-64)

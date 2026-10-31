@@ -14,7 +14,7 @@ Version {{VERSION}}. Installing is at your own risk; the installer can put M-VAV
 - [Manual](manual/): the screen, the controls, MIDI.
 - [Try it in the browser](emu/): the firmware itself, without a break (the loader needs a real FM-1).
 - [Download {{PKG}}](firmware/{{PKG}}): for the command-line installer.
-- [Source](https://github.com/jose-no/fm1-jungle): GPL-3.0. Built on fm1-base (Charles Vestal) and felucca-bsp (Leo
+- [Source](https://github.com/jose-no/Fm1-jungle): GPL-3.0. Built on fm1-base (Charles Vestal) and felucca-bsp (Leo
   Kuroshita, Hügelton Instruments).
 
 M-VAVE and FM-1 are trademarks of their owners. JUNGLE is not affiliated with M-VAVE.

@@ -8,6 +8,6 @@ words = "words.tsv"
 ble = false                    # no Bluetooth: USB MIDI and USB audio only
 # the site
 tagline = "a breakbeat slicer for the FM-1"
-repo = "https://github.com/jose-no/fm1-jungle"
+repo = "https://github.com/jose-no/Fm1-jungle"
 licence = "GPL-3.0-only"
 credits = "Built on fm1-base (Charles Vestal) and felucca-bsp (Leo Kuroshita, Hügelton Instruments), MPL-2.0."
