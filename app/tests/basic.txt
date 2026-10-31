@@ -1,0 +1,105 @@
+# JUNGLE in the host simulator: ./build.sh --host, then
+#   app/build/host/jungle_host app/tests/basic.txt app/build/host
+wait 600
+expect has_break 0
+shot empty.png
+tap PLAY
+wait 30
+expect playing 0
+said_none
+# not ours: left for others
+sysex_bad
+# a break uploaded as the web page does: 2 bars at 170 BPM, 32 kHz
+hello
+expect hello_has 0
+upload 170 2 32000
+expect upload_rc 0
+expect has_break 1
+expect bpm 1700
+hello
+expect hello_has 1
+wait 100
+shot loaded.png
+tap PLAY
+wait 50
+expect playing 1
+wav play.wav
+wait 3000
+expect peak_db_min -24
+shot playing.png
+# the pages and the knobs
+tap EDIT
+wait 30
+expect page 1
+turn K1 5
+wait 100
+expect par4 80
+tap FX
+wait 30
+turn K2 10
+wait 100
+expect par9 20
+tap HOME
+turn K1 10
+wait 100
+expect chaos 55
+turn SELECT 3
+wait 100
+expect bpm 1730
+tap OCT-
+wait 30
+expect bpm 1720
+expect dirty 1
+tap SAVE
+wait 30
+expect dirty 0
+# live keys: a white key plays on from its place; a black key repeats
+key w8 down
+wait 400
+expect white 8
+key w8 up
+key b0 down
+wait 400
+expect live 1
+shot live.png
+key b0 up
+wait 400
+wavstop
+# MIDI: a CC sets a knob, the clock takes over
+midi B0 14 00
+wait 50
+expect chaos 0
+tap PLAY
+wait 30
+expect playing 0
+clock 48 21
+expect ext 1
+midi FA 00 00
+clock 96 21
+expect playing 1
+midi FC 00 00
+wait 30
+expect playing 0
+# the settings and the break survive a power cycle
+reboot
+wait 600
+expect has_break 1
+expect bpm 1720
+expect chaos 55
+# a damaged upload is refused, and the old break is gone (the header is written last)
+upload 140 1 44100 corrupt
+expect upload_rc 5
+expect has_break 0
+# a 4-bar break at 22.05 kHz
+upload 160 4 22050
+expect upload_rc 0
+expect has_break 1
+expect bpm 1600
+tap PLAY
+wait 2000
+expect peak_db_min -24
+shot four-bars.png
+# too long for the flash: refused before anything is erased
+upload 60 4 44100
+expect upload_rc -9
+expect has_break 1

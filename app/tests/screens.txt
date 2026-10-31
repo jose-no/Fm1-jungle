@@ -1,0 +1,16 @@
+# The manual's screenshots (app/docs/img): ./build.sh --host, then
+#   app/build/host/jungle_host app/tests/screens.txt app/docs/img
+wait 600
+shot screen-empty.png
+upload 170 2 32000
+wait 100
+turn K1 10
+tap PLAY
+wait 2600
+shot screen-playing.png
+tap EDIT
+wait 200
+shot screen-edit.png
+tap FX
+wait 200
+shot screen-fx.png

@@ -1,0 +1,13 @@
+# JUNGLE's build settings (base/tools/build.py)
+name = "JUNGLE"
+id_prefix = "FM-1_47"          # package identity: dev FM-1_4700, releases FM-1_47XXYYZZ
+usb_manufacturer = "jose-no"
+usb_product = "JUNGLE FM-1"
+o2 = ["engine.c"]              # the engine at -O2
+words = "words.tsv"
+ble = false                    # no Bluetooth: USB MIDI and USB audio only
+# the site
+tagline = "a breakbeat slicer for the FM-1"
+repo = "https://github.com/jose-no/fm1-jungle"
+licence = "GPL-3.0-only"
+credits = "Built on fm1-base (Charles Vestal) and felucca-bsp (Leo Kuroshita, Hügelton Instruments), MPL-2.0."
