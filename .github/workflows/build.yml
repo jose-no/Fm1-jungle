@@ -36,13 +36,21 @@ jobs:
       - name: JieLi toolchain and AC79 SDK
         run: |
           sh base/tools/get_toolchain.sh ~/.jieli
-          sh base/bsp/tools/get_sdk.sh ~/.jieli/ac79-sdk
+          # JieLi's SDK from its gitee repository (as Elixir's and CTL-1's builds take it), only the three files a
+          # package needs (no Bluetooth here), checked against the commit fm1-base was tested with
+          git clone -q --depth 1 --branch AC79NN_SDK_V1.2.1_2023-12-13 --filter=blob:none --sparse \
+              https://gitee.com/Jieli-Tech/fw-AC79_AIoT_SDK.git ~/.jieli/ac79-sdk
+          git -C ~/.jieli/ac79-sdk sparse-checkout set --no-cone /LICENSE /cpu/wl82/tools/uboot.boot \
+              /cpu/wl82/tools/cfg_tool.bin /cpu/wl82/tools/cfg/eq_cfg_hw.bin
+          test "$(git -C ~/.jieli/ac79-sdk rev-parse HEAD)" = d179b4484759423312073f5fbb232501aa491047
+          ls -la ~/.jieli/ac79-sdk/cpu/wl82/tools/uboot.boot
 
       - name: Firmware
         run: |
           V="$(cat VERSION)"
           export JIELI_TOOLCHAIN=~/.jieli/toolchain AC79_SDK=~/.jieli/ac79-sdk
-          ./build.sh --release "$V" 2>&1 | tail -25
+          ./build.sh --release "$V" > build/fw.log 2>&1 || { tail -60 build/fw.log; echo "::error title=firmware build::$(tail -c 3000 build/fw.log | tr '\n' '|')"; exit 1; }
+          tail -15 build/fw.log
           ls -la app/build/*.fwsc
           echo "V=$V" >> "$GITHUB_ENV"
 
@@ -50,8 +58,8 @@ jobs:
 
       - name: Browser emulator and site
         run: |
-          ./build.sh --web --release "$V" 2>&1 | tail -5
-          python3 base/tools/make_site.py app "app/build/jungle-$V.fwsc" "$V" build/site
+          ./build.sh --web --release "$V" > build/web.log 2>&1 || { tail -40 build/web.log; echo "::error title=web build::$(tail -c 3000 build/web.log | tr '\n' '|')"; exit 1; }
+          python3 base/tools/make_site.py app "app/build/jungle-$V.fwsc" "$V" build/site > build/site.log 2>&1 || { cat build/site.log; echo "::error title=site::$(tail -c 3000 build/site.log | tr '\n' '|')"; exit 1; }
           mkdir -p build/site/loader
           cp web/loader/index.html build/site/loader/
           touch build/site/.nojekyll
